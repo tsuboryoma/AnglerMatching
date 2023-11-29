@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_22_084545) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_29_072036) do
+  create_table "user_profiles", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "age"
+    t.string "biography"
+    t.string "region"
+    t.integer "experience_years"
+    t.string "favorite_fishing_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password"
