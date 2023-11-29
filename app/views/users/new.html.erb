@@ -1,0 +1,8 @@
+<h1>ユーザー登録</h1>
+<%= form_for @user, url: {action: :create} do |f| %>
+    <%= f.label :username, 'ユーザーID' %>
+    <%= f.text_field :username %><br>
+    <%= f.label :password, 'パスワード' %>
+    <%= f.password_field :password %><br>
+    <%= f.submit '登録' %>
+<% end %>
