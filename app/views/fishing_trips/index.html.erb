@@ -1,0 +1,27 @@
+<h1>All Fishing Trips</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Location</th>
+      <th>Start Date</th>
+      <th>Organizer</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @fishing_trips.each do |fishing_trip| %>
+      <tr>
+        <td><%= fishing_trip.title %></td>
+        <td><%= fishing_trip.description %></td>
+        <td><%= fishing_trip.location %></td>
+        <td><%= fishing_trip.start_date %></td>
+        <td><%= fishing_trip.organizer.username %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to '新規募集を出す', new_fishing_trip_path, class: 'btn btn-primary' %>
