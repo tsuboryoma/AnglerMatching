@@ -22,6 +22,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_29_084145) do
     t.index ["organizer_id"], name: "index_fishing_trips_on_organizer_id"
   end
 
+  create_table "user_profiles", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "age"
+    t.string "biography"
+    t.string "region"
+    t.integer "experience_years"
+    t.string "favorite_fishing_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password"
