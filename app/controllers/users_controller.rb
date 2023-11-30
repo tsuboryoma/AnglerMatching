@@ -11,9 +11,9 @@ class UsersController < ApplicationController
     if User.exists?(username: params[:user][:username])
       redirect_to new_user_path
     else
-      user=User.new(username: params[:user][:username],password: params[:user][:password])
+      user=User.new(username: params[:user][:username],password: params[:user][:pass])
       user.save
-      redirect_to users_path
+      redirect_to top_login_path
     end
   end
   
