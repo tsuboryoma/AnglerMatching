@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_29_072036) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_30_112712) do
+  create_table "fishing_trips", force: :cascade do |t|
+    t.integer "organizer_id", null: false
+    t.string "title"
+    t.text "description"
+    t.string "location"
+    t.date "start_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organizer_id"], name: "index_fishing_trips_on_organizer_id"
+  end
+
   create_table "user_profiles", force: :cascade do |t|
     t.integer "user_id"
     t.integer "age"
@@ -24,9 +35,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_29_072036) do
 
   create_table "users", force: :cascade do |t|
     t.string "username"
-    t.string "password"
+    t.string "pass"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "fishing_trips", "users", column: "organizer_id"
 end

@@ -1,0 +1,22 @@
+<h1>Top#login</h1>
+<p>Find me in app/views/top/login.html.erb</p>
+
+
+<h2>ログイン</h2>
+<%= form_with url: top_login_path, local: true do |form| %>
+    <div class="field">
+        <%= form.label :username, "ユーザーID" %>
+        <%= form.text_field :username %>
+    </div>
+    
+    <div class="field">
+        <%= form.label :pass, "パスワード" %>
+        <%= form.password_field :pass %>
+    </div>
+    
+    <div class="actions">
+        <%= form.submit "ログイン" %>
+    </div>
+<% end %>
+
+<%= link_to '新規登録はこちら', new_user_path %>
