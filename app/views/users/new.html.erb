@@ -4,5 +4,17 @@
     <%= f.text_field :username %><br>
     <%= f.label :pass, 'パスワード' %>
     <%= f.password_field :pass %><br>
+        <%= f.fields_for :user_profile do |profile_fields| %>
+        <%= profile_fields.label :age, '年齢' %>
+        <%= profile_fields.text_field :age %><br>
+        <%= profile_fields.label :biography, '自己紹介文' %>
+        <%= profile_fields.text_field :biography %><br>
+        <%= profile_fields.label :region, '地域' %>
+        <%= profile_fields.text_field :region %><br>
+        <%= profile_fields.label :experience_years, '経験年数' %>
+        <%= profile_fields.text_field :experience_years %><br>
+        <%= profile_fields.label :favorite_fishing_type, '好きな釣りの種類' %>
+        <%= profile_fields.text_field :favorite_fishing_type %><br>
+  <% end %>
     <%= f.submit '登録' %>
 <% end %>
