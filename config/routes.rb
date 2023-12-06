@@ -15,5 +15,6 @@ Rails.application.routes.draw do
   #root 'fishing_trips#index'
   root 'top#main'
   resources :fishing_trips, only: [:new, :create, :index]
+  resources :participations, only: [:create, :update]
   
 end

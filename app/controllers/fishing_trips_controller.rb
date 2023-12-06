@@ -2,7 +2,21 @@ class FishingTripsController < ApplicationController
     
     
     def index
-       @fishing_trips = FishingTrip.all 
+        @fishing_trips = FishingTrip.all 
+        @is_organizer = {}
+        @user_participation_status = {}
+        @trip_participations = {}
+        
+        @fishing_trips.each do |trip|
+           @is_organizer[trip.id] = trip.organizer == current_user
+           
+            if @is_organizer[trip.id]
+                @trip_participations[trip.id] = trip.participations
+            else
+                participation = trip.participations.find_by(user: current_user)
+                @user_participation_status[trip.id] = participation&.status
+            end
+        end
     end
     
     

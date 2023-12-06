@@ -3,11 +3,14 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Location</th>
-      <th>Start Date</th>
-      <th>Organizer</th>
+      <th>タイトル</th>
+      <th>詳細</th>
+      <th>開催場所</th>
+      <th>開催日</th>
+      <th>募集者</th>
+      <th>応募者</th>
+      <th>参加者</th>
+      <th>現在の参加者数</th>
     </tr>
   </thead>
 
@@ -19,9 +22,44 @@
         <td><%= fishing_trip.location %></td>
         <td><%= fishing_trip.start_date %></td>
         <td><%= fishing_trip.organizer.username %></td>
+        <td>
+          
+        </td>
+        <td>
+          <% if @is_organizer[fishing_trip.id] %>
+            <% @trip_participations[fishing_trip.id].each do |participation| %>
+              <div>
+                <% if participation.status == 'pending' || participation.status == 'approved' %>
+                  <%= participation.user.username %>
+                  <% if participation.pending? %>
+                    <%= form_with url: participation_path(participation), method: :patch do |form| %>
+                      <%= form.hidden_field :status, value: 'approved' %>
+                      <%= form.submit '承認', class: 'btn btn-success' %>
+                    <% end %>
+                    <%= form_with url: participation_path(participation), method: :patch do |form| %>
+                      <%= form.hidden_field :status, value: 'declined' %>
+                      <%= form.submit '却下', class: 'btn btn-danger' %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          <% elsif @user_participation_status[fishing_trip.id] == 'pending' %>
+            承認待ち
+          <% else %>
+            <%= form_with url: participations_path, method: :post, class: "d-inline" do |form| %>
+              <%= form.hidden_field :fishing_trip_id, value: fishing_trip.id %>
+              <%= form.submit '参加する', class: 'btn btn-primary' %>
+            <% end %>
+          <% end %>
+
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <%= link_to '新規募集を出す', new_fishing_trip_path, class: 'btn btn-primary' %>
+<% if session[:login_uid] %>
+    <%= link_to "ログアウト", top_logout_path %>
+<% end %>
