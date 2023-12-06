@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'participations/create'
+  get 'participations/update'
   get 'top/main'
   get 'top/login'
   post '/top/login', to: 'top#login'
