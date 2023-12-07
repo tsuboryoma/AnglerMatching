@@ -5,13 +5,14 @@ class FishingTripsController < ApplicationController
         @fishing_trips = FishingTrip.all 
         @is_organizer = {}
         @user_participation_status = {}
-        @trip_participations = {}
+        @each_all_participations = {} #各募集に対する全参加申請
+        @current_user_participations = {} #現在のユーザーの参加申請
         
         @fishing_trips.each do |trip|
            @is_organizer[trip.id] = trip.organizer == current_user
-           
+           @current_user_participations[trip.id] = trip.participations.where(user: current_user)
             if @is_organizer[trip.id]
-                @trip_participations[trip.id] = trip.participations
+                @each_all_participations[trip.id] = trip.participations
             else
                 participation = trip.participations.find_by(user: current_user)
                 @user_participation_status[trip.id] = participation&.status

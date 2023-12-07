@@ -91,6 +91,13 @@
           </td>
           <td>
             <!-- キャンセル -->
+            <% participation = @current_user_participations[fishing_trip.id].find { |p| p.user_id == current_user.id && p.status == 'approved' } %>
+            <% if participation %>
+              <%= form_with url: participation_path(participation), method: :patch do |form| %>
+                <%= form.hidden_field :status, value: 'cancelled' %>
+                <%= form.submit 'キャンセル', class: 'btn btn-success' %>
+              <% end %>
+            <% end %>
           </td>
         </tr>
       <% end %>
@@ -128,11 +135,11 @@
           <td><%= fishing_trip.start_date %></td>
 
           <td class="応募者">
-            <% @trip_participations[fishing_trip.id].each do |participation| %>
+            <% @each_all_participations[fishing_trip.id].each do |participation| %>
               <% if participation.pending? %>
                 <div>
                   <% if participation.status == 'pending' || participation.status == 'approved' %>
-                    <%= participation.user.username %>
+                    <%= link_to participation.user.username, user_profiles_path(participation.user) %>
                     <% if participation.pending? %>
                       <%= form_with url: participation_path(participation), method: :patch do |form| %>
                         <%= form.hidden_field :status, value: 'approved' %>
@@ -149,9 +156,9 @@
             <% end %>
           </td>
           <td class="参加者">
-            <% @trip_participations[fishing_trip.id].each do |participation| %>
+            <% @each_all_participations[fishing_trip.id].each do |participation| %>
               <% if participation.approved? %>
-                <%= participation.user.username %><br>
+                <%= link_to participation.user.username, user_profiles_path(participation.user) %>
               <% end %>
             <% end %>
           </td>
