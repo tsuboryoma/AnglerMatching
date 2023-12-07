@@ -18,6 +18,10 @@ class FishingTripsController < ApplicationController
                 @user_participation_status[trip.id] = participation&.status
             end
         end
+        # パラメータで都道府県が指定されていれば、それに基づいてフィルタリング
+        if params[:location].present?
+          @fishing_trips = @fishing_trips.where(location: params[:location])
+        end
     end
     
     
