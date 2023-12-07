@@ -32,6 +32,12 @@
         <%= form.date_select :start_date %>
     </div>
     
+    <!-- 参加上限人数のフィールド追加 -->
+    <div class="field">
+        <%= form.label :participant_limit %>
+        <%= form.number_field :participant_limit %>
+    </div>
+    
     <div class="actions">
         <%= form.submit %>
     </div>

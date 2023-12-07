@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_06_012424) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_07_010636) do
   create_table "fishing_trips", force: :cascade do |t|
     t.integer "organizer_id", null: false
     t.string "title"
@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_06_012424) do
     t.date "start_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "participant_limit"
     t.index ["organizer_id"], name: "index_fishing_trips_on_organizer_id"
   end
 

@@ -1,6 +1,18 @@
-<h1>All Fishing Trips</h1>
+<% if current_user %>
+  <div class="current-user-info">
+    現在ログインしているユーザー: <%= current_user.username %>
+  </div>
+<% end %>
+<% if session[:login_uid] %>
+    <%= link_to "ログアウト", top_logout_path %>
+<% end %>
 
-<table class="table table-striped">
+<h2>他人の釣り募集一覧</h2>
+<% other_fishing_trips = @fishing_trips.select { |trip| current_user != trip.organizer && @user_participation_status[trip.id] != 'approved' && @user_participation_status[trip.id] != 'declined' } %>
+
+<% if other_fishing_trips.any? %>
+  <!-- テーブルの表示 -->
+  <table class="table table-striped">
   <thead>
     <tr>
       <th>タイトル</th>
@@ -8,58 +20,154 @@
       <th>開催場所</th>
       <th>開催日</th>
       <th>募集者</th>
-      <th>応募者</th>
-      <th>参加者</th>
-      <th>現在の参加者数</th>
+      <th>現在の参加人数</th>
+      <th>申請</th>
     </tr>
   </thead>
 
   <tbody>
     <% @fishing_trips.each do |fishing_trip| %>
-      <tr>
-        <td><%= fishing_trip.title %></td>
-        <td><%= fishing_trip.description %></td>
-        <td><%= fishing_trip.location %></td>
-        <td><%= fishing_trip.start_date %></td>
-        <td><%= fishing_trip.organizer.username %></td>
-        <td>
-          
-        </td>
-        <td>
-          <% if @is_organizer[fishing_trip.id] %>
-            <% @trip_participations[fishing_trip.id].each do |participation| %>
-              <div>
-                <% if participation.status == 'pending' || participation.status == 'approved' %>
-                  <%= participation.user.username %>
-                  <% if participation.pending? %>
-                    <%= form_with url: participation_path(participation), method: :patch do |form| %>
-                      <%= form.hidden_field :status, value: 'approved' %>
-                      <%= form.submit '承認', class: 'btn btn-success' %>
-                    <% end %>
-                    <%= form_with url: participation_path(participation), method: :patch do |form| %>
-                      <%= form.hidden_field :status, value: 'declined' %>
-                      <%= form.submit '却下', class: 'btn btn-danger' %>
-                    <% end %>
-                  <% end %>
-                <% end %>
-              </div>
+      <% if current_user != fishing_trip.organizer && @user_participation_status[fishing_trip.id] != 'approved' && @user_participation_status[fishing_trip.id] != 'declined' %>
+        <tr>
+          <td><%= fishing_trip.title %></td>
+          <td><%= fishing_trip.description %></td>
+          <td><%= fishing_trip.location %></td>
+          <td><%= fishing_trip.start_date %></td>
+          <td><%= fishing_trip.organizer.username %></td>
+          <td class="参加人数">
+            <% approved_participants_count = fishing_trip.participations.where(status: 'approved').count %>
+            <%= "#{approved_participants_count}/#{fishing_trip.participant_limit}" %>
+          </td>
+          <td class="参加状況">
+            <% if @user_participation_status[fishing_trip.id] == 'pending' %>
+              承認待ち
+            <% elsif approved_participants_count >= fishing_trip.participant_limit %>
+              満員🙇
+            <% else %>
+              <%= form_with url: participations_path, method: :post, class: "d-inline" do |form| %>
+                <%= form.hidden_field :fishing_trip_id, value: fishing_trip.id %>
+                <%= form.submit '参加する', class: 'btn btn-primary' %>
+              <% end %>
             <% end %>
-          <% elsif @user_participation_status[fishing_trip.id] == 'pending' %>
-            承認待ち
-          <% else %>
-            <%= form_with url: participations_path, method: :post, class: "d-inline" do |form| %>
-              <%= form.hidden_field :fishing_trip_id, value: fishing_trip.id %>
-              <%= form.submit '参加する', class: 'btn btn-primary' %>
-            <% end %>
-          <% end %>
-
-        </td>
-      </tr>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
+<% else %>
+  <p>募集はありません。</p>
+<% end %>
+
+
+<h2>参加予定</h2>
+<% approved_fishing_trips = @fishing_trips.select { |trip| @user_participation_status[trip.id] == 'approved' } %>
+
+<% if approved_fishing_trips.any? %>
+  <!-- テーブルの表示 -->
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>タイトル</th>
+        <th>詳細</th>
+        <th>開催場所</th>
+        <th>開催日</th>
+        <th>募集者</th>
+        <th>現在の参加人数</th>
+        <th>キャンセル</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% approved_fishing_trips.each do |fishing_trip| %>
+        <tr>
+          <td><%= fishing_trip.title %></td>
+          <td><%= fishing_trip.description %></td>
+          <td><%= fishing_trip.location %></td>
+          <td><%= fishing_trip.start_date %></td>
+          <td><%= fishing_trip.organizer.username %></td>
+          <td>
+            <% approved_participants_count = fishing_trip.participations.where(status: 'approved').count %>
+            <%= "#{approved_participants_count}/#{fishing_trip.participant_limit}" %>
+          </td>
+          <td>
+            <!-- キャンセル -->
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>参加予定の募集はありません。</p>
+<% end %>
+
+
+<h2>自分の出した釣り募集一覧</h2>
+<% my_fishing_trips = @fishing_trips.select { |trip| @is_organizer[trip.id] } %>
+
+<% if my_fishing_trips.any? %>
+  <!-- テーブルの表示 -->
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th>タイトル</th>
+      <th>詳細</th>
+      <th>開催場所</th>
+      <th>開催日</th>
+      <th>応募者</th>
+      <th>参加者</th>
+      <th>現在の参加者数</th>
+    </tr>
+  </thead>
+  <% @fishing_trips.each do |fishing_trip| %>
+    <% if @is_organizer[fishing_trip.id] %>
+      <tbody>
+        <tr>
+          <td><%= fishing_trip.title %></td>
+          <td><%= fishing_trip.description %></td>
+          <td><%= fishing_trip.location %></td>
+          <td><%= fishing_trip.start_date %></td>
+
+          <td class="応募者">
+            <% @trip_participations[fishing_trip.id].each do |participation| %>
+              <% if participation.pending? %>
+                <div>
+                  <% if participation.status == 'pending' || participation.status == 'approved' %>
+                    <%= participation.user.username %>
+                    <% if participation.pending? %>
+                      <%= form_with url: participation_path(participation), method: :patch do |form| %>
+                        <%= form.hidden_field :status, value: 'approved' %>
+                        <%= form.submit '承認', class: 'btn btn-success' %>
+                      <% end %>
+                      <%= form_with url: participation_path(participation), method: :patch do |form| %>
+                        <%= form.hidden_field :status, value: 'declined' %>
+                        <%= form.submit '却下', class: 'btn btn-danger' %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+            <% end %>
+          </td>
+          <td class="参加者">
+            <% @trip_participations[fishing_trip.id].each do |participation| %>
+              <% if participation.approved? %>
+                <%= participation.user.username %><br>
+              <% end %>
+            <% end %>
+          </td>
+          <td class="参加人数">
+            <% approved_participants_count = fishing_trip.participations.where(status: 'approved').count %>
+            <%= "#{approved_participants_count}/#{fishing_trip.participant_limit}" %>
+          </td>
+        </tr>
+      </tbody>
+    <% end %>
+  <% end %>
+</table>
+<% else %>
+  <p>出した募集はありません。</p>
+<% end %>
+
 
 <%= link_to '新規募集を出す', new_fishing_trip_path, class: 'btn btn-primary' %>
-<% if session[:login_uid] %>
-    <%= link_to "ログアウト", top_logout_path %>
-<% end %>
+

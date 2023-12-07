@@ -38,7 +38,7 @@ class FishingTripsController < ApplicationController
     
     private
         def fishing_trip_params
-            params.require(:fishing_trip).permit(:organizer_id, :title, :description, :location, :start_date)
+            params.require(:fishing_trip).permit(:organizer_id, :title, :description, :location, :start_date, :participant_limit)
         end
         
 end
