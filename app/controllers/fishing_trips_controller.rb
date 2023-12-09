@@ -3,6 +3,7 @@ class FishingTripsController < ApplicationController
     
     def index
         @fishing_trips = FishingTrip.all 
+        @other_trips = FishingTrip.all
         @is_organizer = {}
         @user_participation_status = {}
         @each_all_participations = {} #各募集に対する全参加申請
@@ -20,7 +21,8 @@ class FishingTripsController < ApplicationController
         end
         # パラメータで都道府県が指定されていれば、それに基づいてフィルタリング
         if params[:location].present?
-          @fishing_trips = @fishing_trips.where(location: params[:location])
+            @fishing_trips = FishingTrip.all
+            @other_trips = @other_trips.where(location: params[:location])
         end
     end
     

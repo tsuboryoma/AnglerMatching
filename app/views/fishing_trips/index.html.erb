@@ -8,7 +8,16 @@
 <% end %>
 
 <h2>他人の釣り募集一覧</h2>
-<%= form_with url: fishing_trips_path, method: :get, local: true, id: 'location-filter-form' do |form| %>
+
+
+
+
+<!-- other_fishing_trips に 主催者でなく、ステータスが'approved'と'declined'ではないやつを入れる-->
+<% other_fishing_trips = @other_trips.select { |trip| current_user != trip.organizer && @user_participation_status[trip.id] != 'approved' && @user_participation_status[trip.id] != 'declined' && @user_participation_status[trip.id] != 'pending' } %>
+
+<% if other_fishing_trips.any? %>
+  <!-- location:フィルターの表示  -->
+  <%= form_with url: fishing_trips_path, method: :get, local: true, id: 'location-filter-form' do |form| %>
   <%= form.label :location, '都道府県で絞り込む:' %>
   <%= form.select :location, [
     ['すべて', ''],
@@ -23,14 +32,8 @@
     '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', 
     '鹿児島県', '沖縄県'
   ], selected: params[:location], include_blank: true %>
-<% end %>
-
-
-
-
-<% other_fishing_trips = @fishing_trips.select { |trip| current_user != trip.organizer && @user_participation_status[trip.id] != 'approved' && @user_participation_status[trip.id] != 'declined' } %>
-
-<% if other_fishing_trips.any? %>
+  <% end %>
+  
   <!-- テーブルの表示 -->
   <table class="table table-striped">
   <thead>
@@ -41,12 +44,12 @@
       <th>開催日</th>
       <th>募集者</th>
       <th>現在の参加人数</th>
-      <th>申請</th>
+      <th>参加申請ボタン</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @fishing_trips.each do |fishing_trip| %>
+    <% other_fishing_trips.each do |fishing_trip| %>
       <% if current_user != fishing_trip.organizer && @user_participation_status[fishing_trip.id] != 'approved' && @user_participation_status[fishing_trip.id] != 'declined' %>
         <tr>
           <td><%= fishing_trip.title %></td>
@@ -79,6 +82,45 @@
   <p>募集はありません。</p>
 <% end %>
 
+
+<h2>参加申請中</h2>
+<% pending_fishing_trips = @fishing_trips.select { |trip| @user_participation_status[trip.id] == 'pending' } %>
+<% if pending_fishing_trips.any? %>
+  <!-- テーブルの表示 -->
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>タイトル</th>
+        <th>詳細</th>
+        <th>開催場所</th>
+        <th>開催日</th>
+        <th>募集者</th>
+        <th>現在の参加人数</th>
+        <th>申請状況</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% pending_fishing_trips.each do |fishing_trip| %>
+        <tr>
+          <td><%= fishing_trip.title %></td>
+          <td><%= fishing_trip.description %></td>
+          <td><%= fishing_trip.location %></td>
+          <td><%= fishing_trip.start_date %></td>
+          <td><%= fishing_trip.organizer.username %></td>
+          <td>
+            <% approved_participants_count = fishing_trip.participations.where(status: 'approved').count %>
+            <%= "#{approved_participants_count}/#{fishing_trip.participant_limit}" %>
+          </td>
+          <td>
+            承認待ち
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>参加申請はありません</p>
+<% end %>
 
 <h2>参加予定</h2>
 <% approved_fishing_trips = @fishing_trips.select { |trip| @user_participation_status[trip.id] == 'approved' } %>
@@ -145,7 +187,7 @@
       <th>現在の参加者数</th>
     </tr>
   </thead>
-  <% @fishing_trips.each do |fishing_trip| %>
+  <% my_fishing_trips.each do |fishing_trip| %>
     <% if @is_organizer[fishing_trip.id] %>
       <tbody>
         <tr>
