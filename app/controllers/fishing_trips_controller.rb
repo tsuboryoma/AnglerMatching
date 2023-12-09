@@ -5,7 +5,9 @@ class FishingTripsController < ApplicationController
         # @変数名 ⇦ インスタンス変数：ビューなどの他の場所でも利用することが出来る
         # @変数名 = {} ⇦ 空のハッシュで初期化、ハッシュはキーと値のペアを格納するためのデータ構造
         @fishing_trips = FishingTrip.all #FishingTripモデルの全てのレコードをDBから取得
+        @other_trips = FishingTrip.all #FishingTripモデルの全てのレコードをDBから取得
         @is_organizer = {} #募集の主催者が現在のユーザーかどうかの真偽値を保持
+
         @user_participation_status = {}
         @each_all_participations = {} #各募集に対する全参加申請
         @current_user_participations = {} #現在のユーザーの参加申請
@@ -22,7 +24,7 @@ class FishingTripsController < ApplicationController
         end
         # パラメータで都道府県が指定されていれば、それに基づいてフィルタリング
         if params[:location].present? #リクエストのパラメータに'location'キーが存在し、かつそれに値が設定されている(空ではない)場合にtrueを返す
-          @fishing_trips = @fishing_trips.where(location: params[:location]) #location 属性がリクエストの location パラメータと一致する FishingTrip レコードのみを選択する
+            @other_trips = @other_trips.where(location: params[:location])#location 属性がリクエストの location パラメータと一致する FishingTrip レコードのみを選択する
         end
     end
     
