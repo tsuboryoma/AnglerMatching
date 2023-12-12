@@ -38,10 +38,16 @@ class FishingTripsController < ApplicationController
         @fishing_trip = FishingTrip.new(fishing_trip_params)
         @fishing_trip.organizer = current_user #現在ログインしているユーザーを設定
         if @fishing_trip.save
-            redirect_to fishing_trips_path, notice: '募集が完了しました。'
+            @chat_room = ChatRoom.new(fishing_trip_id: @fishing_trip.id)
+            if @chat_room.save
+                redirect_to fishing_trips_path, notice: '募集とチャットルームが作成されました。'
+            else
+                redirect_to new_fishing_trip_path, alert: 'チャットルームの作成に失敗しました'
+            end
         else
             render :new
         end
+        
     end
     
     

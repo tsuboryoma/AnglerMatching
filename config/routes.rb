@@ -16,5 +16,7 @@ Rails.application.routes.draw do
   root 'top#main'
   resources :fishing_trips, only: [:new, :create, :index]
   resources :participations, only: [:create, :update]
-  
+  resources :chat_rooms, only: [:show] do
+    resources :messages, only: [:create]
+  end
 end
