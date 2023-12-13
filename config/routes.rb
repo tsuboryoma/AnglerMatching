@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'participations/create'
+  get 'participations/update'
   get 'top/main'
   get 'top/login'
   post '/top/login', to: 'top#login'
@@ -13,5 +15,8 @@ Rails.application.routes.draw do
   #root 'fishing_trips#index'
   root 'top#main'
   resources :fishing_trips, only: [:new, :create, :index]
-  
+  resources :participations, only: [:create, :update]
+  resources :chat_rooms, only: [:show] do
+    resources :messages, only: [:create]
+  end
 end

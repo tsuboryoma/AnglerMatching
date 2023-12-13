@@ -18,3 +18,22 @@
   <% end %>
     <%= f.submit '登録' %>
 <% end %>
+
+<div class="container mt-5">
+    <h1>ユーザー登録</h1>
+    <%= form_for @user, url: {action: :create}, html: {class: 'form'} do |f| %>
+        <div class="form-group">
+            <%= f.label :username, 'ユーザーID' %>
+            <%= f.text_field :username, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+            <%= f.label :pass, 'パスワード' %>
+            <%= f.password_field :pass, class: 'form-control' %>
+        </div>
+        <%= f.submit '登録', class: 'btn btn-primary form-submit-button' %>
+    <% end %>
+
+    <div class="login-link">
+        <%= link_to 'ログインはこちら', top_login_path, class: 'btn btn-link' %>
+    </div>        
+</div>

@@ -1,0 +1,18 @@
+
+<h1>チャットルーム</h1>
+<div id="messages">
+    <% if @messages %>
+        <% @messages.each do |message| %>
+            <p><strong><%= message.user.username %>:</strong> <%= message.content %></p>
+        <% end %>
+    <% else %>
+        <p>メッセージはありません。</p>
+    <% end %>
+</div>
+
+<%= form_with(model: [ @chat_room, @message ],url: chat_room_messages_path(@chat_room)) do |form| %>
+    <%= form.text_area :content %>
+    <%= form.submit "送信" %>
+<% end %>
+
+<%= link_to "戻る", fishing_trips_path %>
