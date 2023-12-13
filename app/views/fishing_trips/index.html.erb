@@ -4,7 +4,9 @@
   </div>
 <% end %>
 <% if session[:login_uid] %>
-    <%= link_to "ログアウト", top_logout_path %>
+    <div class="btn btn-danger">
+      <%= link_to "ログアウト", top_logout_path %>
+    </div>
 <% end %>
 
 <h2>他人の釣り募集一覧</h2>
