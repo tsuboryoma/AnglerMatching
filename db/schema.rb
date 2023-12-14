@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_10_063400) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_14_100755) do
   create_table "chat_rooms", force: :cascade do |t|
     t.integer "fishing_trip_id", null: false
     t.datetime "created_at", null: false
@@ -50,6 +50,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_10_063400) do
     t.index ["user_id"], name: "index_participations_on_user_id"
   end
 
+  create_table "trip_participants", force: :cascade do |t|
+    t.integer "fishing_trip_id", null: false
+    t.integer "user_id", null: false
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fishing_trip_id"], name: "index_trip_participants_on_fishing_trip_id"
+    t.index ["user_id"], name: "index_trip_participants_on_user_id"
+  end
+
   create_table "user_profiles", force: :cascade do |t|
     t.integer "user_id"
     t.integer "age"
@@ -63,7 +73,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_10_063400) do
 
   create_table "users", force: :cascade do |t|
     t.string "username"
-    t.string "pass"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -74,4 +84,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_10_063400) do
   add_foreign_key "messages", "users"
   add_foreign_key "participations", "fishing_trips"
   add_foreign_key "participations", "users"
+  add_foreign_key "trip_participants", "fishing_trips"
+  add_foreign_key "trip_participants", "users"
 end

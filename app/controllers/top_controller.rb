@@ -4,14 +4,12 @@ class TopController < ApplicationController
   end
 
   def login
-    if User.find_by(username: params[:username])
-      user = User.find_by(username: params[:username])
-      if user.pass == params[:pass]
-        session[:login_uid] = params[:username]
-        redirect_to fishing_trips_path
-      end
+    user = User.find_by(username: params[:username])
+    if user && user.authenticate(params[:password])
+      session[:login_uid] = user.username
+      redirect_to fishing_trips_path
     else
-      flash[:alert] = 'ユーザー名またはパスワードがただしくありません。'
+      flash[:alert] = 'ユーザー名またはパスワードが正しくありません。'
       render "login"
     end
   end
