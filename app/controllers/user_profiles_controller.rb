@@ -9,7 +9,7 @@ class UserProfilesController < ApplicationController
   
   def update
       @user_profile = UserProfile.find(params[:id])
-      if @useer_profile.update(age: params[:id][:age],biography: params[:id][:biography],region: params[:id][:region],experience_years: params[:id][:experience_years],favorite_fishing_type: params[:id][:favorite_fishing_type])
+      if @user_profile.update(age: params[:id][:age],biography: params[:id][:biography],region: params[:id][:region],experience_years: params[:id][:experience_years],favorite_fishing_type: params[:id][:favorite_fishing_type])
         redirect_to user_profiles_path
       else
         render 'edit'

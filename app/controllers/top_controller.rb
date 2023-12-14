@@ -6,8 +6,7 @@ class TopController < ApplicationController
   def login
     if User.find_by(username: params[:username])
       user = User.find_by(username: params[:username])
-      login_password = BCrypt::Password.new(user.pass)
-      if login_password == params[:pass]
+      if user.pass == params[:pass]
         session[:login_uid] = params[:username]
         redirect_to fishing_trips_path
       end
