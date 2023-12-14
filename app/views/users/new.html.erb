@@ -9,6 +9,15 @@
             <%= f.label :pass, 'パスワード' %>
             <%= f.password_field :pass, class: 'form-control' %>
         </div>
+        
+        <%= f.fields_for :user_profile do |profile_form| %>
+            <div class="form-group">
+              <%= profile_form.label :age, '年齢' %>
+              <%= profile_form.text_field :age, class: 'form-control' %>
+            </div>
+            
+        <% end %>
+        
         <%= f.submit '登録', class: 'btn btn-primary form-submit-button' %>
     <% end %>
 

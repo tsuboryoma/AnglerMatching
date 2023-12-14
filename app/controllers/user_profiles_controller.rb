@@ -1,6 +1,6 @@
 class UserProfilesController < ApplicationController
   def index
-    @uuser_profiles = UserProfile.all
+    @user_profiles = UserProfile.all
   end
 
   def edit
