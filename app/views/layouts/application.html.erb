@@ -9,9 +9,20 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => 'reload' %>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   </head>
   
   <body>
-    <%= yield %>
+    <div id="header">
+      <%= render "header" %>
+    </div>
+    <div id="sub-header">
+      <!--<%= render "sub-header" %>-->
+    </div>
+    <div id="content">
+      <%= yield %>
+    </div>
   </body>
 </html>

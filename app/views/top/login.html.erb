@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-2">
     <h1>ログイン</h1>
     <%= form_with url: top_login_path, local: true do |form| %>
         <div class="form-group">
@@ -9,10 +9,12 @@
             <%= form.label :password, 'パスワード' %>
             <%= form.password_field :password, class: 'form-control' %>
         </div>
-        <%= form.submit 'ログイン', class: 'btn btn-primary form-submit-button' %>
+        <div class="d-flex justify-content-end mt-2">
+            <%= form.submit 'ログイン', class: 'btn btn-primary form-submit-button justify-content-end' %>    
+        </div>
     <% end %>
 
-    <div class="login-link">
+    <div class="d-flex justify-content-end mt-1">
         <%= link_to '新規登録はこちら', new_user_path, class: 'btn btn-link' %>
     </div>        
 </div>

@@ -1,36 +1,45 @@
-<div class="chat-container">
-    <h1 class="chat-title">チャットルーム</h1>
-    <div class="messages" id="messages">
+<%= tag.script type: "module" do %>
+  import "custom/btn_control"
+<% end %>
+
+<div class="container my-4 p-3 border rounded bg-light">
+    <div class="messages p-2" id="messages" style="height: 475px; overflow-y: auto;">
         <% if @messages %>
             <% grouped_messages = @messages.group_by { |message| message.created_at.to_date } %>
             <% grouped_messages.each do |date, messages| %>
-                <div class="date-divider">
-                    <span class="date"><%= date.strftime("%Y/%m/%d") %></span>
+                <div class="text-center my-4">
+                    <span class="black border rounded-5 bg-white ps-2 pe-2"><%= date.strftime("%Y/%m/%d") %></span>
                 </div>
                 <% messages.each do |message| %>
-                    <div class="message <%= 'my-message' if message.user == current_user %>">
+                    <div class="d-flex <%= 'justify-content-end' if message.user == current_user %> mb-2">
                         <% if message.user == current_user %>
-                            <span class="timestamp message-meta"><%= message.created_at.strftime("%H:%M") %></span>
+                            <span class="text-muted small pt-5"><%= message.created_at.strftime("%H:%M") %></span>
+                            <div class="mt-2 ms-2 border rounded" style="max-width: 40%;">
+                                <p class="pt-3 ps-3 pe-3"><%= message.content %></p>
+                            </div>
+                        <% else %>
+                            <div class="text-success mr-2">
+                                <strong><%= message.user.username %></strong>
+                            </div>
+                            
+                            <div class="mt-2 ms-2 border rounded bg-wite align-items-center" style="max-width: 40%;">
+                                
+                                <p class="pt-3 ps-3 pe-3"><%= message.content %></p>
+                            </div>
+                            <span class="text-muted small pt-5"><%= message.created_at.strftime("%H:%M") %></span>
                         <% end %>
-                        <div class="message-content">
-                            <% unless message.user == current_user %>
-                                <strong class="username"><%= message.user.username %>:</strong>
-                                <span class="timestamp message-meta"><%= message.created_at.strftime("%H:%M") %></span>
-                            <% end %>
-                            <p class="content"><%= message.content %></p>
-                        </div>
                     </div>
                 <% end %>
             <% end %>
         <% else %>
-            <p class="no-messages">メッセージはありません。</p>
+            <p class="text-center text-muted">メッセージはありません。</p>
         <% end %>
     </div>
 
-  <%= form_with(model: [ @chat_room, @message ], url: chat_room_messages_path(@chat_room), html: { class: 'message-form' }) do |form| %>
-    <%= form.text_area :content, class: 'text-area' %>
-    <%= form.submit "送信", class: 'send-button' %>
-  <% end %>
+    <%= form_with(model: [ @chat_room, @message ], url: chat_room_messages_path(@chat_room), class: 'd-flex p-2 bg-gray-600', id: 'message-form') do |form| %>
+        <%= form.text_area :content, class: 'form-control me-2', rows: 1, placeholder: 'メッセージを入力してください' %>
+        <%= form.submit "送信", class: 'btn btn-success', id: 'send-button', disabled: true %>
+    <% end %>
 
-  <%= link_to "戻る", fishing_trips_path, class: 'back-link' %>
+    <%= link_to "戻る", fishing_trips_path, class: 'd-block text-center text-decoration-none mt-3 p-2 bg-light border-top' %>
 </div>

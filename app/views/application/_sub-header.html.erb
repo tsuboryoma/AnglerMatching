@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      
+      
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+        <% if session[:login_uid] %>
+            <li>
+                <%= link_to fishing_trips_path, class: "nav-link text-light" do %>
+                    <i class="bi bi-house"></i> Home
+                <% end %>
+            </li>
+            <li>
+                <%= link_to top_logout_path, class: "nav-link text-light" do %>
+                    <i class="bi bi-box-arrow-left"></i> Logout
+                <% end %>
+            </li>
+            <li>
+                <%= link_to edit_user_profile_path(current_user.id), class: "nav-link text-light" do %>
+                    <i class="bi bi-person-circle"></i> <%= current_user.username %>
+                <% end %>
+            </li>
+
+        <% else %>
+            <li>
+                <%= link_to 'ログイン', top_login_path, class: "nav-link text-light" %>
+            </li>
+            <li>
+                <%= link_to '会員登録', new_user_path, class: "nav-link text-light" %>
+            </li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+</nav>
+                                       

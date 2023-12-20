@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-2">
     <h1>ユーザー登録</h1>
     <%= form_for @user, url: {action: :create}, html: {class: 'form'} do |f| %>
         <div class="form-group">
@@ -35,10 +35,12 @@
                 <%= profile_fields.text_field :favorite_fishing_type, class: 'form-control' %>
             </div> 
         <% end %>
-        <%= f.submit '登録', class: 'btn btn-primary form-submit-button' %>
+        <div class="d-flex justify-content-end mt-2">
+            <%= f.submit '登録', class: 'btn btn-primary form-submit-button' %>
+        </div>
     <% end %>
 
-    <div class="login-link">
+    <div class="d-flex justify-content-end mt-1">
         <%= link_to 'ログインはこちら', top_login_path, class: 'btn btn-link' %>
     </div>        
 </div>
