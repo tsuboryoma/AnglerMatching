@@ -11,5 +11,4 @@ Turbo.session.drive = false
 import "controllers"
 import './custom/location_filter';
 import './custom/auto_reload';
-import './custom/btn_control';
 import 'bootstrap'

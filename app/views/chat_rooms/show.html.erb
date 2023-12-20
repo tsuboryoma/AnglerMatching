@@ -37,8 +37,8 @@
     </div>
 
     <%= form_with(model: [ @chat_room, @message ], url: chat_room_messages_path(@chat_room), class: 'd-flex p-2 bg-gray-600', id: 'message-form') do |form| %>
-        <%= form.text_area :content, class: 'form-control me-2', rows: 1, placeholder: 'メッセージを入力してください' %>
-        <%= form.submit "送信", class: 'btn btn-success', id: 'send-button', disabled: true %>
+        <%= form.text_area :content, class: 'form-control me-2',required: true, rows: 1, placeholder: 'メッセージを入力してください' %>
+        <%= form.submit "送信", class: 'btn btn-success', id: 'send-button' %>
     <% end %>
 
     <%= link_to "戻る", fishing_trips_path, class: 'd-block text-center text-decoration-none mt-3 p-2 bg-light border-top' %>
