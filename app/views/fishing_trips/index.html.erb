@@ -49,7 +49,7 @@
           <td><%= fishing_trip.location %></td>
           <td><%= fishing_trip.start_date %></td>
           <td>
-              <%= link_to fishing_trip.organizer.username, user_profiles_path(fishing_trip.organizer) %>
+              <%= link_to fishing_trip.organizer.username, user_profile_path(fishing_trip.organizer) %>
           </td>
           
           <td class="参加人数">
@@ -101,7 +101,7 @@
           <td><%= fishing_trip.description %></td>
           <td><%= fishing_trip.location %></td>
           <td><%= fishing_trip.start_date %></td>
-          <td><%= link_to fishing_trip.organizer.username, user_profiles_path(fishing_trip.organizer) %></td>
+          <td><%= link_to fishing_trip.organizer.username, user_profile_path(fishing_trip.organizer) %></td>
           <td>
             <% approved_participants_count = fishing_trip.participations.where(status: 'approved').count %>
             <%= "#{approved_participants_count}/#{fishing_trip.participant_limit}" %>
@@ -142,7 +142,7 @@
           <td><%= fishing_trip.description %></td>
           <td><%= fishing_trip.location %></td>
           <td><%= fishing_trip.start_date %></td>
-          <td><%= fishing_trip.organizer.username %></td>
+          <td><%= link_to fishing_trip.organizer.username, user_profile_path(fishing_trip.organizer) %></td>
           <td>
             <% approved_participants_count = fishing_trip.participations.where(status: 'approved').count %>
             <%= "#{approved_participants_count}/#{fishing_trip.participant_limit}" %>
@@ -202,7 +202,7 @@
               <% if participation.pending? %>
                 <div class="d-flex">
                   <% if participation.status == 'pending' || participation.status == 'approved' %>
-                    <%= link_to participation.user.username, user_profiles_path(participation.user) %>
+                    <%= link_to participation.user.username, user_profile_path(participation.user) %>
                     <% if participation.pending? %>
                       <%= form_with url: participation_path(participation), method: :patch do |form| %>
                         <%= form.hidden_field :status, value: 'approved' %>
@@ -221,7 +221,7 @@
           <td class="参加者">
             <% @each_all_participations[fishing_trip.id].each do |participation| %>
               <% if participation.approved? %>
-                <%= link_to participation.user.username, user_profiles_path(participation.user) %>
+                <%= link_to participation.user.username, user_profile_path(participation.user) %>
               <% end %>
             <% end %>
           </td>

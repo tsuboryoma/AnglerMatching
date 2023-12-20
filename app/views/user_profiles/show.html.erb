@@ -1,0 +1,22 @@
+<div class="container mt-4">
+
+  <!-- User Profile Information -->
+  <h1><%= @user_profile.user.username %></h1>
+
+  <!-- Profile Details -->
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <strong>年齢:</strong> <%= @user_profile.age %><br>
+      <strong>自己紹介文:</strong> <%= @user_profile.biography %><br>
+      <strong>地域:</strong> <%= @user_profile.region %><br>
+      <strong>釣りの経験年数:</strong> <%= @user_profile.experience_years %><br>
+      <strong>好きな釣りの種類:</strong> <%= @user_profile.favorite_fishing_type %><br>
+    </div>
+  </div>
+
+  <!-- Edit Profile Link -->
+  <div class="mt-4">
+    <%= link_to "プロフィールを編集する", edit_user_profile_path(current_user.id), class: "btn btn-primary" %>
+  </div>
+
+</div>

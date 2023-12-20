@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   post '/top/login', to: 'top#login'
   get 'top/logout'
   resources :users
-  resources :user_profiles
+  resources :user_profiles,only: [:edit,:index,:show,:update]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

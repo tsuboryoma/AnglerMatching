@@ -1,15 +1,24 @@
 <h1>プロフィール編集画面</h1>
-ユーザーID：< user_profiles.user_id >
 <%= form_for @user_profile , url: {action: :update} do |f| %>
-    <%= f.label :age, '年齢' %>
-    <%= f.text_field :age %>
-    <%= f.label :biography, '自己紹介文' %>
-    <%= f.text_field :biography %>
-    <%= f.label :region, '地域' %>
-    <%= f.text_field :region %>
-    <%= f.label :experience_years, '経験年数' %>
-    <%= f.text_field :experience_years %>
-    <%= f.label :favorite_fishing_type, '好きな釣りの種類' %>
-    <%= f.text_field :favorite_fishing_type %>
+    <div class="form-group">
+        <%= f.label :age, '年齢' %>
+        <%= f.text_field :age, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+        <%= f.label :biography, '自己紹介文' %>
+        <%= f.text_field :biography, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+        <%= f.label :region, '地域' %>
+        <%= f.text_field :region, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+        <%= f.label :experience_years, '経験年数' %>
+        <%= f.text_field :experience_years, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+        <%= f.label :favorite_fishing_type, '好きな釣りの種類' %>
+        <%= f.text_field :favorite_fishing_type, class: 'form-control' %>
+    </div>
     <%= f.submit '更新' %>
 <% end %>
