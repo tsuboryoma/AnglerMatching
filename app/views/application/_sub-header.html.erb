@@ -1,12 +1,9 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      
-      
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+    <div class="container collapse navbar-collapse justify-content-around">
         <ul class="navbar-nav">
         <% if session[:login_uid] %>
             <li>
-                <%= link_to fishing_trips_path, class: "nav-link text-light" do %>
+                <%= link_to fishing_trips_path, class: "nav-link text-light pl-20px" do %>
                     <i class="bi bi-house"></i> Home
                 <% end %>
             </li>
@@ -30,7 +27,5 @@
             </li>
         <% end %>
         </ul>
-      </div>
     </div>
 </nav>
-                                       

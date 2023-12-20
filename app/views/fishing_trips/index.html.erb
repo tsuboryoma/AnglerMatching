@@ -27,7 +27,7 @@
 
   
   <!-- テーブルの表示 -->
-  <table class="table table-striped">
+  <table class="table table-light table-hover">
   <thead>
     <tr>
       <th>タイトル</th>
@@ -82,7 +82,7 @@
 <% pending_fishing_trips = @fishing_trips.select { |trip| @user_participation_status[trip.id] == 'pending' } %>
 <% if pending_fishing_trips.any? %>
   <!-- テーブルの表示 -->
-    <table class="table table-striped">
+    <table class="table table-light table-hover">
     <thead>
       <tr>
         <th>タイトル</th>
@@ -122,7 +122,7 @@
 
 <% if approved_fishing_trips.any? %>
   <!-- テーブルの表示 -->
-    <table class="table table-striped">
+    <table class="table table-light table-hover">
     <thead>
       <tr>
         <th>タイトル</th>
@@ -175,7 +175,7 @@
 
 <% if my_fishing_trips.any? %>
   <!-- テーブルの表示 -->
-  <table class="table table-striped">
+  <table class="table table-light table-hover">
   <thead>
     <tr>
       <th>タイトル</th>
@@ -245,5 +245,6 @@
   <p>出した募集はありません。</p>
 <% end %>
 
-
-<%= link_to '新規募集を出す', new_fishing_trip_path, class: 'btn btn-primary' %>
+<div class="d-flex justify-content-end">
+  <%= link_to '新規募集を出す', new_fishing_trip_path, class: 'btn btn-primary' %></div>
+</div>
