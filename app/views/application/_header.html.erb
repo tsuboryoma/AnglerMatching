@@ -14,12 +14,12 @@
         <% if session[:login_uid] %>
             <li>
                 <%= link_to fishing_trips_path, class: "nav-link text-light" do %>
-                    <i class="bi bi-house"></i> Home
+                    <i class="bi bi-house"></i> ホーム
                 <% end %>
             </li>
             <li>
                 <%= link_to top_logout_path, class: "nav-link text-light" do %>
-                    <i class="bi bi-box-arrow-left"></i> Logout
+                    <i class="bi bi-box-arrow-left"></i> ログアウト
                 <% end %>
             </li>
             <li>
@@ -30,11 +30,12 @@
 
         <% else %>
             <li>
-                <%= link_to 'ログイン', top_login_path, class: "nav-link text-light" %>
-            </li>
-            <li>
                 <%= link_to '会員登録', new_user_path, class: "nav-link text-light" %>
             </li>
+            <li>
+                <%= link_to 'ログイン', top_login_path, class: "nav-link text-light" %>
+            </li>
+
         <% end %>
         </ul>
       </div>
