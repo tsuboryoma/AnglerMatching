@@ -11,7 +11,7 @@
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
         <ul class="navbar-nav">
-        <% if session[:login_uid] %>
+        <% if session[:login_uid] && current_user %>
             <li>
                 <%= link_to fishing_trips_path, class: "nav-link text-light" do %>
                     <i class="bi bi-house"></i> Home
