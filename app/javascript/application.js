@@ -12,3 +12,4 @@ import "controllers"
 import './custom/location_filter';
 import './custom/auto_reload';
 import 'bootstrap'
+import "@rails/actioncable";

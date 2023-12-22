@@ -50,6 +50,11 @@ class FishingTripsController < ApplicationController
         
     end
     
+    def destroy
+        @fishing_trip = FishingTrip.find(params[:id])
+        @fihsing_trip.destroy
+        redirect_to fishing_trips_path, notice: '募集が削除されました'
+    end
     
     private
         def fishing_trip_params

@@ -137,7 +137,6 @@
             <th>開催日</th>
             <th>募集者</th>
             <th>現在の参加人数</th>
-            <th>チャット</th>
             <th>キャンセル</th>
           </tr>
         </thead>
@@ -153,10 +152,6 @@
                 <% approved_participants_count = fishing_trip.participations.where(status: 'approved').count %>
                 <%= "#{approved_participants_count}/#{fishing_trip.participant_limit}" %>
               </td>
-              <td>
-                <% if fishing_trip.chat_room %>
-                  <%= link_to "チャット", chat_room_path(fishing_trip.chat_room) %></td>
-                <% end %>
               <td>
                 <!-- キャンセル -->
                 <% participation = @current_user_participations[fishing_trip.id].find { |p| p.user_id == current_user.id && p.status == 'approved' } %>
@@ -194,6 +189,7 @@
           <th>参加者</th>
           <th>チャット</th>
           <th>現在の参加者数</th>
+          <th>キャンセル</th>
         </tr>
       </thead>
       <% my_fishing_trips.each do |fishing_trip| %>
@@ -243,6 +239,9 @@
               <td class="参加人数">
                 <% approved_participants_count = fishing_trip.participations.where(status: 'approved').count %>
                 <%= "#{approved_participants_count}/#{fishing_trip.participant_limit}" %>
+              </td>
+              <td>
+                <%= link_to '削除', fishing_trip_path(fishing_trip), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
               </td>
             </tr>
           </tbody>

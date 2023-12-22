@@ -19,9 +19,11 @@
       <div id="header">
         <%= render "header" %>
       </div>
-      <div id="sub-header">
-        <%= render "sub-header" %>
-      </div>
+      <% unless (controller_name == 'chat_rooms' && action_name == 'show') || (controller_name == 'fishing_trips' && action_name == 'new') || (controller_name == 'user_profiles' && action_name == 'show') || (controller_name == 'user_profiles' && action_name == 'edit')  %>
+        <div id="sub-header">
+          <%= render "sub-header" %>
+        </div>
+      <% end %>
     </div>
     <div id="content">
       <%= yield %>
